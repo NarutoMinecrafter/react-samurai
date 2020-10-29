@@ -1,0 +1,70 @@
+.dialog_page {
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+}
+
+.dialogs {
+    border-right: 2px solid green;
+}
+
+.dialog {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 10px;
+}
+
+.dialog img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid red;
+}
+
+.message img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid red;
+}
+
+.messages {
+    color: #fafafa;
+    min-height: 550px;
+
+}
+
+.message {
+    padding: 10px;
+    /* padding-top: 100px; */
+    width: 50%;
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+}
+
+a{
+    color: #fff;
+    text-decoration: none;
+}
+
+.activ a {
+    /* color: grey; */
+    font: 20px 'comic Sans MS';
+    color: gold;
+}
+
+.u {
+    float: right;
+}
+
+.u img {
+    float: right;
+}
+
+.i {
+    float: left;
+}
+
+.messageField {
+    display: grid;
+    grid-template-rows: 1fr 100pxfr;
+}

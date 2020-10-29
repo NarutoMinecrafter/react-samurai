@@ -1,0 +1,18 @@
+.header {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    grid-area: h;
+    background-color: #666;
+    border-radius: 20px;
+    border: 3px solid black;
+}
+
+.logo {
+    height: 50px;
+    width: 50px;
+}
+
+center {
+    font: 35px 'comic Sans MS';
+    color: gold;
+}
