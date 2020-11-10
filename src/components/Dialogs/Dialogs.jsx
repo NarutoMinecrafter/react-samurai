@@ -1,7 +1,9 @@
 import React from 'react'
+import { Field, reduxForm } from 'redux-form'
 import Dialog from './Dialog/Dialog'
 import s from './Dialogs.module.css'
 import Message from './Message/Message'
+import { Component } from 'react';
 
 const Dialogs = (props) => {
 
@@ -27,17 +29,27 @@ const Dialogs = (props) => {
                 <div className={s.messages} >
                     {messageElement}
                 </div>
-                <div className={s.newMssage} >
-                    <div>
-                        <textarea value={props.newMessageText} onChange={onMessageChange} />
-                    </div>
-                    <div>
-                        <button onClick={addMessage} >Send</button>
-                    </div>
-                </div>
+                <addMessageReduxForm onSubmit={props.onSubmit} />
             </div>
         </div>
     )
 }
+
+class addMessageForm extends Component {
+    render(){
+        return( 
+        <form onSubmit={this.props.handleSubmit} >
+            <div>
+                <Field name='addNewMessageText'  component='textarea' />
+            </div>
+            <div>
+                <button>Send</button>
+            </div>
+        </form>
+        )
+    }
+}
+
+const addMessageReduxForm = reduxForm({form: 'AddMessage'})(addMessageForm)
 
 export default Dialogs;

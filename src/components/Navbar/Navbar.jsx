@@ -16,6 +16,9 @@ let friendElement = props.state.friends.map(friend => <Friend ava={friend.ava} n
                 <NavLink to='/messages' activeClassName={s.activ} >Messages</NavLink>
             </div>
             <div className={s.item}>
+                <NavLink to='/users' activeClassName={s.activ} >Users</NavLink>
+            </div>
+            <div className={s.item}>
                 <NavLink to='/news' activeClassName={s.activ} >News</NavLink>
             </div>
             <div className={s.item}>

@@ -1,6 +1,6 @@
 .header {
     display: grid;
-    grid-template-columns: 50px 1fr;
+    grid-template-columns: 150px 1fr 150px;
     grid-area: h;
     background-color: #666;
     border-radius: 20px;
@@ -12,7 +12,11 @@
     width: 50px;
 }
 
-center {
+.narutominecrafter {
     font: 35px 'comic Sans MS';
     color: gold;
+}
+
+.loginBlock {
+    /* float: right; */
 }

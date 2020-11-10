@@ -1,30 +1,41 @@
-import React  from 'react'
+import React from 'react'
+import Users from './Users';
 import { connect } from 'react-redux'
-import { followAC, setUsersAC, unFollowAC } from '../../redux/users-reducer'
-import Users from './Users'
+import { setCurrentPage, getUsers, deleteFollow, postFollow } from '../../redux/users-reducer'
+import Preloader from '../common/Preloader';
 
-const mapStateToProps = (state) => {
-    // console.log(state)
-    // debugger
-    return {
-        users: state.usersPage.users
+class UsersAPIComponent extends React.Component {
+
+    componentDidMount() {
+        this.props.getUsers(this.props.currentPage, this.props.pageSize)
+    }
+
+    pageChenget = (pageNumber) => {
+        this.props.getUsers(pageNumber, this.props.pageSize)
+        this.props.setCurrentPage(pageNumber)
+    }
+
+    render() {
+        return <>
+            { this.props.isFeching ? <Preloader/> : null}
+            <Users {...this.props} pageChenget={this.pageChenget} />
+        </>
     }
 }
 
-let mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
     return {
-        follow: (userid) => {
-            dispatch(followAC(userid))
-        },
-        unfollow: (userid) => {
-            dispatch(unFollowAC(userid))
-        },
-        setUsers: (users) => {
-            dispatch(setUsersAC(users))
-        } 
+        users: state.usersPage.users,
+        pageSize: state.usersPage.pageSize,
+        totalCount: state.usersPage.totalCount,
+        currentPage: state.usersPage.currentPage,
+        isFeching: state.usersPage.isFeching,
+        followingProgress: state.usersPage.followingProgress
     }
-} 
+}
 
-const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(Users)
+const mapDispatchToProps = {  setCurrentPage, getUsers, deleteFollow, postFollow }
+
+const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersAPIComponent)
 
 export default UsersContainer;

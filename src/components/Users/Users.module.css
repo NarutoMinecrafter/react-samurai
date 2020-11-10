@@ -43,3 +43,7 @@
 .ls{
     grid-area: ls;
 }
+
+.activePage {
+    font-weight: bold;
+}

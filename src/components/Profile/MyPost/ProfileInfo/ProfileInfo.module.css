@@ -23,4 +23,7 @@
 
 .desc {
     grid-column: 2 / 2;
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+
 }
