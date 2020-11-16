@@ -1,6 +1,7 @@
 import { ProfileAPI } from "../DAL/api";
 
 const ADD_POST = 'ADD-POST';
+const DELETE_POST = 'DELETE-POST';
 const SET_USER_PROFILE = 'SET-USER-PROFILE';
 const SET_STATUS = 'SET-STATUS';
 
@@ -29,6 +30,12 @@ const profileReducer = (state = initialState, action) => {
                 newPostText: ''
             }
         }
+        case DELETE_POST: {
+            return{
+                ...state,
+                postData: [...state.postData].filter(p => p.id !== action.postId)
+            }
+        }
         case SET_USER_PROFILE: {
             return{
                 ...state,
@@ -47,26 +54,24 @@ const profileReducer = (state = initialState, action) => {
 }
 
 export const addPostActionCreator = (value) => ({ type:ADD_POST, value})
+export const deletePost = (postId) => ({ type:DELETE_POST, postId})
 
 export const setUserProfile = (profile) => ({type:SET_USER_PROFILE, profile})
 export const setStatus = (status) => ({type:SET_STATUS, status})
 
-export const getProfile = (userId) => (dispath) => {
-    ProfileAPI.getProfile(userId).then(data => {
+export const getProfile = (userId) => async (dispath) => {
+    let data = await ProfileAPI.getProfile(userId)
         dispath(setUserProfile(data))
-    })
 }
 
-export const getStatus = (userId) => (dispath) => {
-    ProfileAPI.getStatus(userId).then(data => {
+export const getStatus = (userId) => async (dispath) => {
+    let data = await ProfileAPI.getStatus(userId)
         dispath(setStatus(data))
-    })
 }
 
-export const updateStatus = (status) => (dispath) => {
-    ProfileAPI.updateStatus(status).then(data => {
+export const updateStatus = (status) => async (dispath) => {
+    let data = await ProfileAPI.updateStatus(status)
         if (data.resultCode === 0) {dispath(setStatus(status))}
-    })
 }
 
 export default profileReducer;

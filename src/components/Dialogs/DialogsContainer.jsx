@@ -1,7 +1,7 @@
 // import React from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-// import WithAuthRederect from '../../HOC/WithAuthRederect'
+import WithAuthRederect from '../../HOC/WithAuthRederect'
 import { addMessageActionCreator, updateNewMessageTextActionCreator } from '../../redux/message-reducer'
 import Dialogs from './Dialogs'
 
@@ -23,4 +23,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default compose(connect(mapStateToProps, mapDispatchToProps))(Dialogs)
+export default compose(connect(mapStateToProps, mapDispatchToProps), WithAuthRederect)(Dialogs)

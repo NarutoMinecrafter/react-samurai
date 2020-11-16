@@ -10,7 +10,7 @@ import  s from '../common/FormsControl/FormsControl.module.css';
 const LoginForm = (props) => {
     const reset = () => setTimeout(props.reset, 1)
     return (
-        <form onSubmit={props.handleSubmit} >
+        <form onSubmit={props.handleSubmit} >{}
             <div><Field component={Input} name='email' placeholder='Login' validate={[required]} /></div>
             <div><Field component={Input} name='password' placeholder='Password' validate={[required]} /></div>
             <div><Field component={Input} name='rememberMe' type="checkbox" validate={[required]} />remember me</div>
