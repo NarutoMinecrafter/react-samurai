@@ -22,7 +22,17 @@ export const usersAPI = {
 export const ProfileAPI = {
     getProfile(userId) {return instans.get(`profile/${userId}`).then(data)},
     getStatus(userId) {return instans.get(`profile/status/${userId}`).then(data)},
-    updateStatus(status) {return instans.put(`profile/status`, {status}).then(data)}
+    updateStatus(status) {return instans.put(`profile/status`, {status}).then(data)},
+    savePofileDescription(profileData) {return instans.put(`profile`, profileData).then(data)},
+    uploadPhoto(file) {
+        let formData = new FormData()
+        formData.append('image', file)
+        return instans.put(`/profile/photo`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(data)
+    }
 }
 
 export const getMe = () => instans.get(`auth/me`).then(data) 
@@ -30,5 +40,8 @@ export const getMe = () => instans.get(`auth/me`).then(data)
 export const login = (userLoginData) => instans.post(`auth/login`, userLoginData).then(data)
 
 export const logout = () => instans.delete(`auth/login`).then(data)
+
+export const getCapthaUrlApi = () => instans.get(`security/get-captcha-url`).then(data)
+
 
 // промисы

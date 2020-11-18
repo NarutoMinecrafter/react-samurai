@@ -1,43 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Preloader from '../../../common/Preloader';
 import s from './ProfileInfo.module.css';
-import ProfileStatusWithHooks from './ProfileStatusWithHooks'
+import defaultAvatar from '../../../img/userAvatar.jpg'
+import ProfileData from './ProfileData';
+import ProfileDataForm from './ProfileDataForm';
+
+// import cn from 'classnames';
+// <div className={cn(s.user, s.ban, s.lol)}></div>
 
 const ProfileInfo = (props) => {
-    if  (!props.profile) {
-        return <Preloader/>
+    
+    let [editMode, setEditMode] = useState(false)
+
+    if (!props.profile) {
+        return <Preloader />
     }
+
+    const onSubmit = (formData) => {
+        props.savePofileDescription(formData).then(() => setEditMode(false))
+    }
+
+    let photoSelected = e => {
+        if (e.target.files.length) props.uploadPhoto(e.target.files[0])
+    }
+
     return (
         <div>
             <img src='https://izobrazhenie.net/photo/0-0/2461_713574610.jpg' className={s.cap} alt='' />
             <div className={s.user}>
                 <div className={s.ava} >
-                    <img src={props.profile.photos.large} alt='' />
+                    <img src={props.profile.photos.large || defaultAvatar} alt='' />
+                    {props.isOwner && <input type='file' onChange={photoSelected} />}
                 </div>
-                <div className={s.desc} >
-                    <div>
-                        <div>{props.profile.fullName}</div>
-                        <ProfileStatusWithHooks status={props.status} updateStatus={props.updateStatus} />
-                        <br/>
-                        <div>Описание: {props.profile.aboutMe}</div>
-                        <br/>
-                        {props.profile.lookingForAJob ? <div>Ищу работу: </div> : <div>Не ищу работу: </div>}
-                        <div>{props.profile.lookingForAJobDescription}</div>
-                    </div>
-                    <div>
-                        <div>Контакты:</div>
-                            <ul>
-                                {props.profile.contacts.facebook && <li><a href={props.profile.contacts.facebook} >facebook</a></li>}
-                                {props.profile.contacts.website && <li><a href={props.profile.contacts.website} >website</a></li>}
-                                {props.profile.contacts.vk && <li><a href={props.profile.contacts.vk} >vk</a></li>}
-                                {props.profile.contacts.twitter && <li><a href={props.profile.contacts.twitter} >twitter</a></li>}
-                                {props.profile.contacts.instagram && <li><a href={props.profile.contacts.instagram} >instagram</a></li>}
-                                {props.profile.contacts.youtube && <li><a href={props.profile.contacts.youtube} >youtube</a></li>}
-                                {props.profile.contacts.github && <li><a href={props.profile.contacts.github} >github</a></li>}
-                                {props.profile.contacts.mainLink && <li><a href={props.profile.contacts.mainLink} >mainLink</a></li>}
-                            </ul>
-                    </div>
-                </div>
+                {editMode   ? <ProfileDataForm profile={props.profile} setEditMode={setEditMode} onSubmit={onSubmit} initialValues={props.profile} /> 
+                            : <ProfileData {...props} setEditMode={setEditMode} />}
             </div>
         </div>
     )

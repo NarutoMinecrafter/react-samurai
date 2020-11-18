@@ -11,7 +11,7 @@ const TOOGLE_IS_FOLLOWING_PROGRESS = 'TOOGLE-IS-FOLLOWING-PROGRESS'
 
 let initialState = {
     users: [],
-    pageSize: 5,
+    pageSize: 10,
     totalCount: 0,
     currentPage: 1,
     isFeching: true,
@@ -56,7 +56,7 @@ const usersReducer = (state = initialState, action) => {
             return {
                 ...state, followingProgress: action.isFeching
                     ? [...state.followingProgress, action.userid]
-                    : state.followingProgress.filter(id => id != action.userid)
+                    : state.followingProgress.filter(id => id !== action.userid)
             }
         }
         default:

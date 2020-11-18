@@ -3,11 +3,16 @@
   padding: 0;
 }
 
-.bcg {
-  background-color: #333;
+a {
+  text-decoration: none;
+  color: #fff;
+}
+
+/* .bcg {
+  /* background-color: #333; * /
   width: 100%;
   height: -1;
-}
+} */
 
 .app-wrapper {
   margin: 0 auto;

@@ -1,9 +1,11 @@
+import { stopSubmit } from "redux-form";
 import { ProfileAPI } from "../DAL/api";
 
 const ADD_POST = 'ADD-POST';
 const DELETE_POST = 'DELETE-POST';
 const SET_USER_PROFILE = 'SET-USER-PROFILE';
 const SET_STATUS = 'SET-STATUS';
+const SAVE_PHOTO_SUCCESS = 'SAVE-PHOTO-SUCCESS';
 
 let initialState = {
     postData: [
@@ -24,28 +26,34 @@ const profileReducer = (state = initialState, action) => {
             let newPost = {
                 id: '7', like: '0', message: action.value, ava: 'https://sun1-18.userapi.com/oshWOD47s62UCB6DiYbyA-WcYMz9yfKTLSU5sg/9KrG1vY3wtE.jpg'
             }
-            return{
+            return {
                 ...state,
                 postData: [...state.postData, newPost],
                 newPostText: ''
             }
         }
         case DELETE_POST: {
-            return{
+            return {
                 ...state,
                 postData: [...state.postData].filter(p => p.id !== action.postId)
             }
         }
         case SET_USER_PROFILE: {
-            return{
+            return {
                 ...state,
                 profile: action.profile
             }
         }
         case SET_STATUS: {
-            return{
+            return {
                 ...state,
                 status: action.status
+            }
+        }
+        case SAVE_PHOTO_SUCCESS: {
+            return {
+                ...state,
+                profile: { ...state.profile, photos: action.photos }
             }
         }
         default:
@@ -53,25 +61,45 @@ const profileReducer = (state = initialState, action) => {
     }
 }
 
-export const addPostActionCreator = (value) => ({ type:ADD_POST, value})
-export const deletePost = (postId) => ({ type:DELETE_POST, postId})
-
-export const setUserProfile = (profile) => ({type:SET_USER_PROFILE, profile})
-export const setStatus = (status) => ({type:SET_STATUS, status})
+export const addPostActionCreator = (value) => ({ type: ADD_POST, value })
+export const deletePost = (postId) => ({ type: DELETE_POST, postId })
+export const setUserProfile = (profile) => ({ type: SET_USER_PROFILE, profile })
+export const setStatus = (status) => ({ type: SET_STATUS, status })
+export const savePhoto = (photos) => ({ type: SAVE_PHOTO_SUCCESS, photos })
 
 export const getProfile = (userId) => async (dispath) => {
     let data = await ProfileAPI.getProfile(userId)
-        dispath(setUserProfile(data))
+    dispath(setUserProfile(data))
 }
 
 export const getStatus = (userId) => async (dispath) => {
     let data = await ProfileAPI.getStatus(userId)
-        dispath(setStatus(data))
+    dispath(setStatus(data))
 }
 
 export const updateStatus = (status) => async (dispath) => {
-    let data = await ProfileAPI.updateStatus(status)
-        if (data.resultCode === 0) {dispath(setStatus(status))}
+    try {
+        let data = await ProfileAPI.updateStatus(status)
+        if (data.resultCode === 0) { dispath(setStatus(status)) }
+    } catch(error) {
+        alert('updateStatus error')
+    }
+}
+
+export const uploadPhoto = file => async dispath => {
+    let data = await ProfileAPI.uploadPhoto(file)
+    if (data.resultCode === 0) { dispath(savePhoto(data.data.photos)) }
+}
+
+export const savePofileDescription = desc => async (dispath, getState) => {
+    let data = await ProfileAPI.savePofileDescription(desc)
+    if (data.resultCode === 0) {dispath(getProfile(getState().auth.id))}
+    else {
+        // let message = data.messages.lenght > 0 ? 'Some error' : data.messages[0]
+        // dispath(stopSubmit('profile-data', { "contacts": {"facebook": data.messages[0] }}))
+        dispath(stopSubmit('profile-data', { _error: data.messages[0] }))
+        return Promise.reject(data.messages[0])
+    }
 }
 
 export default profileReducer;
