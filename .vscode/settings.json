@@ -1,0 +1,10 @@
+{
+    "compile-hero.disable-compile-files-on-did-save-code": false,
+    "god.tsconfig": "./tsconfig.json",
+    "editor.autoClosingOvertype": "always",
+    "javascript.preferences.quoteStyle": "single",
+    "typescript.preferences.quoteStyle": "single",
+    "yaml.format.singleQuote": true,
+    "prettier.jsxSingleQuote": true,
+    "prettier.singleQuote": true
+}

@@ -3,6 +3,10 @@
   padding: 0;
 }
 
+center {
+  float: center;
+}
+
 a {
   text-decoration: none;
   color: #fff;
